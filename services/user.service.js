@@ -1,11 +1,11 @@
-import { User } from "../models/user.model.js";
+import {UserRepository as usr} from '../repository/user.repository.js'
 
-export class StudentService{
+export class UserService{
 
-    async list(){return User.find()};
-    async getById(id){return User.findById(id)};
-    async create(dto){return User.create(dto)};
-    async update(id, dto){return User.findByIdAndUpdate(id, dto, {new: true})};
-    async delete(id){ return !!(await User.findByIdAndDelete(id))}
+    async list(){return usr.find()};
+    async getById(id){return usr.findById(id)};
+    async create(dto){return usr.create(dto)};
+    async update(id, dto){return usr.findByIdAndUpdate(id, dto, {new: true})};
+    async delete(id){ return !!(await usr.findByIdAndDelete(id))}
 
 }

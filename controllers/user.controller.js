@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { StudentService } from "../services/student.services.js";
-import { toCreateStudentDTO, toUpdateStudentDTO } from "../models/dto/student.dto.js"
+import { UserService} from "../services/user.service.js";
+import { toCreateUserDTO, toUpdateUserDTO } from "../models/dto/user.dto.js"
 
-const svc = new StudentService();
+const svc = new UserService();
 
-export const studentController = {
+export const userController = {
   list: async (_req, res, next) => {
     try {
       res.json(await svc.list());
@@ -21,7 +21,7 @@ export const studentController = {
       const doc = await svc.getById(id);
       return doc
         ? res.json(doc)
-        : res.status(404).json({ error: "El estudiante no existe" });
+        : res.status(404).json({ error: "El usuario no existe" });
     } catch (e) {
       next(e);
     }
@@ -29,9 +29,9 @@ export const studentController = {
 
   create: async (req, res, next) => {
     try {
-      const dto = toCreateStudentDTO(req.body);
+      const dto = toCreateUserDTO(req.body);
       const created = await svc.create(dto);
-      res.status(201).json({ student: created });
+      res.status(201).json({ user: created });
     } catch (e) {
       next(e);
     }
@@ -42,11 +42,11 @@ export const studentController = {
       const { id } = req.params;
       if (!mongoose.Types.ObjectId.isValid(id))
         return res.status(400).json({ error: "ID inválido" });
-      const dto = toUpdateStudentDTO(req.body);
+      const dto = toUpdateUserDTO(req.body);
       const out = await svc.update(id, dto);
       return out
         ? res.json(out)
-        : res.status(404).json({ error: "El estudiante no existe" });
+        : res.status(404).json({ error: "El usuario no existe" });
     } catch (e) {
       next(e);
     }
@@ -60,7 +60,7 @@ export const studentController = {
       const ok = await svc.delete(id);
       return ok
         ? res.status(204).end()
-        : res.status(404).json({ error: "El estudiante no existe" });
+        : res.status(404).json({ error: "El usuario no existe" });
     } catch (e) {
       next(e);
     }
